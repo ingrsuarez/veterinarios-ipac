@@ -125,7 +125,7 @@ class Pages extends CI_Controller {
                    
 
                     $this->email->subject('Link de activación');
-                    $this->email->message('Haga click en el siguiente enlace para activar su cuenta: https://www.veterinarios-ipac.com.ar/'.$codigo;
+                    $this->email->message('Haga click en el siguiente enlace para activar su cuenta: https://www.veterinarios-ipac.com.ar/'.$codigo);
 
                     $this->email->send();
                     $message = 'Revise su correo para activar su usuario! '.$codigo;
