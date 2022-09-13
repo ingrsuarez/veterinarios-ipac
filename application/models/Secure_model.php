@@ -6,7 +6,7 @@ class Secure_model extends CI_Model {
 	const usuarios_externos_table = "usuariosexternos";
 	public function __constructor (){
 
-		$this->load->library('encryption');
+		
 		$this->load->database();
 		
 	}
