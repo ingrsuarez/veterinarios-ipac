@@ -49,5 +49,12 @@ class Secure extends CI_Controller {
     	redirect('/secure/login', 'refresh');
     }
 
+    public function activate($code)
+    {
+    	$code_array = explode(":",$code); 
+    	$code_array[0] = $code_array[0]."@".$code_array[1];
+    	var_dump($code_array);
+    	// hash('sha256',$registro['email'].$clave.$registro['nombre']);
+    }
 
 }
