@@ -112,12 +112,12 @@ class Pages extends CI_Controller {
                 {
                     $registro['clave'] = hash('sha256', $clave);
                     $registro['usuario'] = $registro['email'];
-                    var_dump($registro);
-                    // $this->Secure_model->insert_user($registro);
+                    // var_dump($registro);
+                    $this->Secure_model->insert_user($registro);
                     $this->config->load('email_settings');
                     $this->load->library('email');
 
-                    $this->email->from('administrador@veterinarios-ipac.com.ar', 'Informate');
+                    $this->email->from('administrador@veterinarios-ipac.com.ar', 'ACTIVAR USUARIO');
                     $this->email->to($registro['email']);
                    
 
@@ -125,6 +125,12 @@ class Pages extends CI_Controller {
                     $this->email->message('Hola Testing the email class.'.$registro['nombre'].$registro['fechaNacimiento']);
 
                     $this->email->send();
+                    $message = 'Revise su correo para activar su usuario!';
+                    echo ("<script>
+                    alert('".$message."')
+                    </script>");
+                    unset($_POST);
+                    redirect('/', 'refresh');
                 }
 
             }
