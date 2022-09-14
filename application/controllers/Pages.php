@@ -116,33 +116,45 @@ class Pages extends CI_Controller {
                     $registro['usuario'] = $registro['email'];
                     $registro['estado'] = "activar";
                     // var_dump($registro);
-                    $this->Secure_model->insert_user($registro);
-                    $this->config->load('email_settings');
-                    $this->load->library('email');
+                    $id = $this->Secure_model->mail_exist($registro['email']);
+                    if ($id)
+                    {
+                        if ($id == "have user")
+                        {
+                            $message = 'Ese correo ya está registrado!  ';
+                        }else
+                        {
+                            $id = $this->Secure_model->mail_exist($registro['email']);
+                            $this->Secure_model->insert_user($registro,$id);
+                            $this->config->load('email_settings');
+                            $this->load->library('email');
 
-                    $this->email->from('administrador@veterinarios-ipac.com.ar', 'ACTIVAR USUARIO');
-                    $this->email->to($registro['email']);
-                   
+                            $this->email->from('administrador@veterinarios-ipac.com.ar', 'ACTIVAR USUARIO');
+                            $this->email->to($registro['email']);
 
-                    $this->email->subject('Link de activación');
-                    $this->email->message('Haga click en el siguiente enlace para activar su cuenta: https://www.veterinarios-ipac.com.ar/'.$codigo);
 
-                    $this->email->send();
-                    $message = 'Revise su correo para activar su usuario! '.$codigo;
-                    echo ("<script>
-                    alert('".$message."')
-                    </script>");
-
-                    unset($_POST);
-                    redirect('/', 'refresh');
+                            $this->email->subject('Link de activación');
+                            $this->email->message('Haga click en el siguiente enlace para activar su cuenta: https://www.veterinarios-ipac.com.ar/'.$codigo);
+                            $this->email->send();
+                            $message = 'Revise su correo para activar su usuario! ';
+                        }
+                            echo ("<script>
+                            alert('".$message."')
+                            </script>");
+                            unset($_POST);
+                            redirect('/', 'refresh');  
+                    }else
+                    {    
+                        $message = 'Antes de registrarse debe contactar al admnistrador para darse de alta!';
+                        echo ("<script>
+                        alert('".$message."')
+                        </script>");
+                        unset($_POST);
+                        redirect('/', 'refresh');
+                    }   
                 }
-
             }
-            
-
-        }
-         
-       
+        }    
     }
 
     //Function to verify board tasks
